@@ -1,4 +1,4 @@
-package sort20;
+package sort07;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -65,17 +65,17 @@ public class Sort {
         //最好:  最坏:  平均:
     }
 
-    //最好: O(n*log(n)) 最坏: O(n*log(n)) 平均: O(n*log(n))
     private static void margeSort(int[] array) {
         margeSortFunction(array,0,array.length);
     }
 
+    //最好:O(n*log(n))  最坏:O(n*log(n))  平均:O(n*log(n))
     private static void margeSortFunction(int[] array, int low, int high) {
         if(low + 1 >= high){
             return;
         }
 
-        int mid = (low + high) / 2;
+        int mid = (low + high)/2;
         margeSortFunction(array,low,mid);
         margeSortFunction(array,mid,high);
         marge(array,low,mid,high);
@@ -84,8 +84,9 @@ public class Sort {
     private static void marge(int[] array, int low, int mid, int high) {
         int i = low;
         int j = mid;
-        int[] newArray = new int[high-low];
+        int[] newArray = new int[high - low];
         int index = 0;
+
         while (i < mid && j < high){
             if(array[i] <= array[j]){
                 newArray[index++] = array[i++];
@@ -94,9 +95,10 @@ public class Sort {
             }
         }
 
-        while (i < mid){
+        while(i < mid){
             newArray[index++] = array[i++];
         }
+
         while(j < high){
             newArray[index++] = array[j++];
         }
@@ -107,11 +109,11 @@ public class Sort {
         }
     }
 
-    //最好: O(n*log(n)) 最坏: O(n^2) 平均: O(n*log(n))
     private static void quickSort(int[] array) {
         quickSortFunction(array,0,array.length-1);
     }
 
+    //最好:O(n*log(n))  最坏:O(n)^2  平均:O(n*log(n))
     private static void quickSortFunction(int[] array, int left, int right) {
         if(left >= right){
             return;
@@ -127,10 +129,10 @@ public class Sort {
         int j = right;
 
         while(i < j){
-            while (i < j && array[j] >= array[left]){
+            while(i < j && array[j] >= array[left]){
                 j--;
             }
-            while (i < j && array[i] <= array[left]){
+            while(i < j && array[i] <= array[left]){
                 i++;
             }
             swap(array,i,j);
@@ -139,12 +141,12 @@ public class Sort {
         return i;
     }
 
-    //最好: O(n) 最坏: O(n^2) 平均: O(n^2)
+    //最好:O(n)  最坏:O(n)^2  平均:O(n)^2
     private static void bubbleSort(int[] array) {
         boolean isSort = true;
         for(int i = array.length-1; i >= 0; i--){
             for(int j = 0; j < i ; j++){
-                if(array[j] > array[j+1]){
+                if(array[j+1] < array[j]){
                     swap(array,j,j+1);
                     isSort = false;
                 }
@@ -155,30 +157,30 @@ public class Sort {
         }
     }
 
-    //最好: O(n*log(n)) 最坏: O(n*log(n)) 平均: O(n*log(n))
+    //最好:O(n*log(n))  最坏:O(n*log(n))   平均:O(n*log(n))
     private static void heapSort(int[] array) {
-        buildHeap(array,array.length);
-        for(int i = array.length-1; i >= 0; i--){
+        buildHeap(array,array.length);//O(log(n))
+        for(int i = array.length - 1; i >= 0; i--){//O(n)
             swap(array,i,0);
-            shift(array,i,0);
+            shift(array,i,0);//O(log(n))
         }
     }
 
     private static void shift(int[] array, int size, int index) {
-        int left = index * 2 + 1;
+        int left = index + 1;
         while(left < size){
-            int right = left+1;
+            int right = left + 1;
             int max = left;
 
             if(right < size){
-                max = array[left] > array[right] ? left : right;
+                max = array[left] >array[right] ? left : right;
             }
 
             if(array[max] < array[index]){
                 break;
             }
 
-            swap(array,max,index);
+            swap(array,index,max);
             index = max;
             left = index * 2 + 1;
         }
@@ -190,12 +192,12 @@ public class Sort {
         }
     }
 
-    //最好: O(n^2) 最坏: O(n^2) 平均: O(n^2)
+    //最好:O(n)^2  最坏:O(n)^2  平均:O(n)^2
     private static void selectSort(int[] array) {
-        for(int i = array.length-1; i >= 0; i--){
+        for(int i = array.length - 1; i >= 0; i--){
             int max = i;
             for(int j = 0; j < i; j++){
-                if(array[max] < array[j]){
+                if(array[j] > array[max]){
                     max = j;
                 }
             }
@@ -203,18 +205,18 @@ public class Sort {
         }
     }
 
-    private static void swap(int[] array, int max, int i) {
-        int t = array[max];
-        array[max] = array[i];
-        array[i] = t;
+    private static void swap(int[] array, int j, int i) {
+        int t = array[i];
+        array[i] = array[j];
+        array[j] = t;
     }
 
-    //最好: O(n) 最坏: O(n^2) 平均:O(n^1.3)
+    //最好:O(n)  最坏:O(n)^2  平均:O(n)^1.3
     private static void shellSort(int[] array) {
         int len = array.length;
         while(len > 1){
             shellSortFunction(array,len);
-            len = len / 3 -1;
+            len = len / 3 - 1;
         }
         shellSortFunction(array,1);
     }
@@ -234,7 +236,7 @@ public class Sort {
         }
     }
 
-    //最好: O(n) 最坏: O(n^2) 平均: O(n^2)
+    //最好:O(n)  最坏:O(n)^2  平均:O(n)^2
     private static void insertSort(int[] array) {
         for(int i = 1; i < array.length; i++){
             int val = array[i];
